@@ -1,26 +1,19 @@
 var webpack = require('webpack');
-
-var path = require('path');
+var prodConfig   = require('./webpack.prod.config');
+Object.assign = require('object-assign');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var ROOT_PATH = path.resolve(__dirname);
+module.exports = Object.assign(prodConfig, {
 
-var isProduction = process.env.NODE_ENV === 'production';
+  devtool: 'inline-source-map',
 
-module.exports = {
-
-  devtool: isProduction ? '' : 'source-map',
-
-  entry: [
-    path.resolve(ROOT_PATH, 'app/src/index')
+  entry:  [
+    'webpack-dev-server/client?http://127.0.0.1:8080/',
+    'webpack/hot/only-dev-server',
+    './client'
   ],
 
   module: {
-    preLoaders: [{
-      test: /\.jsx?$/,
-      loaders: isProduction ? [] : ['eslint'],
-      include: path.resolve(ROOT_PATH, 'app')
-    }],
     loaders: [
     {
       test: /\.jsx?$/,
@@ -33,28 +26,19 @@ module.exports = {
     }]
   },
 
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-
-  output: {
-    path: isProduction ? path.resolve(ROOT_PATH, 'app/dist') : path.resolve(ROOT_PATH, 'app/build'),
-    publicPath: '/',
-    filename: 'bundle.js'
-  },
-
   devServer: {
-    contentBase: path.resolve(ROOT_PATH, 'app/build'),
-    historyApiFallback: true,
     hot: true,
-    inline: true,
-    progress: true
-  },
+    proxy: {
+      '*': 'http://127.0.0.1:' + (process.env.PORT || 3000)
+    },
+    host: '127.0.0.1'
+  }
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Listlogs'
+      title: 'React Redux Boilerplate'
     })
   ]
 
