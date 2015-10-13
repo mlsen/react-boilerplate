@@ -32,14 +32,15 @@ module.exports = Object.assign(prodConfig, {
       '*': 'http://127.0.0.1:' + (process.env.PORT || 3000)
     },
     host: '127.0.0.1'
-  }
+  },
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
     new HtmlWebpackPlugin({
-      title: 'React Redux Boilerplate'
+      title: 'React Redux Boilerplate',
+      template: './templates/index.html',
+      inject: 'body'
     })
   ]
 
-};
+});
