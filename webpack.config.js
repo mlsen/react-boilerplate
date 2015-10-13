@@ -36,11 +36,11 @@ module.exports = Object.assign(prodConfig, {
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      title: 'React Redux Boilerplate',
-      template: './templates/index.html',
-      inject: 'body'
-    })
+    // new HtmlWebpackPlugin({
+    //   title: 'React Redux Boilerplate',
+    //   template: './templates/index.html',
+    //   inject: 'body'
+    // })
   ]
 
 });

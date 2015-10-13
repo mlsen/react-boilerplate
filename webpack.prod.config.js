@@ -34,10 +34,10 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'React Redux Boilerplate',
-      template: './templates/index.html',
-      inject: 'body'
-    })
+    // new HtmlWebpackPlugin({
+    //   title: 'React Redux Boilerplate',
+    //   template: './templates/index.html',
+    //   inject: 'body'
+    // })
   ]
 };

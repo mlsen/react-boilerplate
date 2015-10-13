@@ -5,11 +5,18 @@ import {RoutingContext, match} from 'react-router';
 import createLocation from 'history/lib/createLocation';
 import routes from 'routes';
 
+import createStore from 'stores';
+import {Provider} from 'react-redux';
+import reducer from 'reducers';
+
+import {fromJS} from 'immutable';
+
 const app = koa();
 
 app.use(function *() {
 
   const location = createLocation(this.request.url);
+  const store = createStore(reducer);
 
   match({routes, location}, (err, redirectLocation, renderProps) => {
     if(err) {
@@ -26,9 +33,12 @@ app.use(function *() {
     }
 
     const initialComponent = (
-      <RoutingContext {...renderProps} />
+      <Provider store={store}>
+        <RoutingContext {...renderProps} />
+      </Provider>
     );
 
+    const initialState = store.getState();
     const componentHTML = ReactDOM.renderToString(initialComponent);
 
     this.body = `
@@ -37,6 +47,9 @@ app.use(function *() {
         <head>
           <meta charset="UTF-8">
           <title>React Redux Boilerplate</title>
+          <script>
+            window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
+          </script>
         </head>
         <body>
           <div id="app">${componentHTML}</div>
