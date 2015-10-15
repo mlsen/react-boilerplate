@@ -1,7 +1,7 @@
 import {List} from 'immutable';
 import {combineReducers} from 'redux';
 
-const initialState = List(['marius', 'theo']);
+const initialState = List();
 
 function names(state = initialState, action) {
   switch(action.type) {
